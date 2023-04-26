@@ -1,16 +1,21 @@
 
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import {useParams} from "react-router-dom"
+
+//Importamos nuestro contexto 
+import { useVariableContext } from "../Context/VariablesContext"
+
 export const Especificaciones = () => {
 
   const articuloId = useParams()
 
-  const [articulo,setArticulo] = useState ([])
+  const context =  useVariableContext()
+  // const [articulo,setArticulo] = useState ([])
   
-  const url ='http://localhost:3000/items'
+  // const url ='http://localhost:3000/items'
 
 
-  useEffect(()=>{
+/*   useEffect(()=>{
     const apiArt = async()=>{
       try {
         const respuesta = await fetch(url)
@@ -21,9 +26,9 @@ export const Especificaciones = () => {
       }
     }
     apiArt()
-  },[])
+  },[]) */
 
-  const filtro = articulo.filter(art => art.id === articuloId.id )
+   const filtro = context.datosApi.filter(art => art.id === articuloId.id )
 
 
   return (

@@ -1,3 +1,6 @@
+//importamos nuestro provider
+import { VariableProvider } from "./Context/VariablesContext"
+
 //importamos Routes y Route de Router dom
 import { Routes, Route } from "react-router-dom"
 
@@ -13,12 +16,16 @@ function App() {
 
   return (
     <>  
-        <BarraNavegacion/>
-
-        <Routes>
-          <Route path="/" element={<Inicio/>}/>
-          <Route path="/articulo/:id" element={<Especificaciones/>} />
-        </Routes>
+    <VariableProvider>
+      
+      <BarraNavegacion/>
+      <Routes>
+        <Route path="/" element={<Inicio/>}/>
+        <Route path="/articulo/:id" element={<Especificaciones/>} />
+      </Routes>
+      
+    </VariableProvider>
+        
 
         
     </>

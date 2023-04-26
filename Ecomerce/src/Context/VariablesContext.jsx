@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react/prop-types */
 /*  context tiene que ver con el manejo de estados globales en react
 Es decir poder compartir la misma informacion entre diferentes niveles de componentes
 
@@ -5,9 +7,10 @@ Para usar constx es necesario seguir la siguiente serie de pasos.
 
 1- Crearemos el contexto
 2- Crear un proveedor del contexto
+3- Indicar al proveedor que datos vamos a compartir 
 */
 
-import { createContext, useState, useEffect} from "react";
+import { createContext, useState, useEffect, useContext} from "react";
 
 //1.- Creacion del contexto, esto nos importara por defecto createContext de react
 const VariableContext = createContext()
@@ -17,6 +20,8 @@ function VariableProvider(props){
 
     const [datosApi, setDatosApi] = useState([])
     const [articuloSeleccionado, setArticuloSeleccionado] = useState({})
+
+
     const url ='http://localhost:3000/items'
 
     useEffect(()=>{
@@ -34,10 +39,36 @@ function VariableProvider(props){
 
     //3 Indicar al proveedor que datos vamos a compartir 
     //Estos datos seran publicos para todos los componente que esten dentro del proveedor
+    // Para esto creamos unsta constate la cual va almacenar la informacion que sera de propoiedad global 
     const values ={
         datosApi,
         articuloSeleccionado,
         setArticuloSeleccionado
     }
 
+    //4 Retonamos una funcion con los valores qwue seran globales en este caso Values
+    //siempre se llamara value el prop del provider con la data 
+    //Value es un objeto que indica que datos son globales 
+    return (
+        <VariableContext.Provider value={values} > 
+            {props.children}
+        </VariableContext.Provider>
+    )
 }
+
+//5 Procedemos a crear el consumidor del contexto 
+//Para consumir el contexto debemos crear un hok perosnalizado 
+//Brindamos el accemos a la informacion del contexto 
+const useVariableContext =()=>{
+    const context = useContext(VariableContext)
+    return context
+}
+
+//6 Exportamos el contexto y provider
+export {
+    VariableProvider,
+    useVariableContext
+} 
+
+//7 Ir al componente superior y envolver a los componentes que haran uso del contexto con el componente que creamos 
+// <<VariableContext.Provider >
