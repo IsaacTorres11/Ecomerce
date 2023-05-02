@@ -1,15 +1,52 @@
 import {NavLink} from 'react-router-dom'
-export const BarraNavegacion = () => {
+
+//importando la funcion que consume el contexto
+import { useVariableContext } from '../Context/VariablesContext'
+const BarraNavegacion = () => {
+
+  const {busqueda,setBusqueda} = useVariableContext()
+
+  /////////////// Funciones De Formulario /////////////
+
+  //Funcion que maneja el Submit
+  const handleSubmit =(e)=>{
+    e.preventDefault()
+    if(!busqueda.trim()){
+      alert('debes ingresar un parametro de busqueda')
+    }
+  }
+
+  //Funcion que maneja el Change cuando se escribe en el input
+  const handleChange =(e)=>{
+      setBusqueda (e.target.value)
+  }
+
+  ///////////////////////////////////////////////////
+    
+
   return (
     <nav className="navbar bg-body-tertiary">
         <div className="container-fluid p-3 ">
             <NavLink className="navbar-brand " to='/'>E-comerce</NavLink>
             <NavLink className="navbar-brand " to='/nosotros'>Nosotros</NavLink>
-            <form className="d-flex" role="search">
-            <input className="form-control me-2  " type="search" placeholder="Search" aria-label="Search"/>
+
+            <form className="d-flex" role="search" onSubmit={handleSubmit}>
+            
+            <input className="form-control me-2  " 
+            type="search" 
+            placeholder="Search" 
+            aria-label="Search"
+            name = 'busqueda'
+            value={busqueda}
+            onChange={handleChange}/>
+            
             <button className="btn btn-outline-success " type="submit">Search</button>
             </form>
+            
+            <NavLink to="/ingresar" > Ingresar</NavLink>
+            <NavLink to="/restrarse"> Registrarse</NavLink>
         </div>
+        
     </nav>
   )
 }

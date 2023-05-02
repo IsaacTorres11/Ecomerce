@@ -1,8 +1,7 @@
-
-// import { useEffect, useState } from "react";
+//Importamos usePrams para extraer el valor de la ruta dinamica
 import {useParams} from "react-router-dom"
 
-//Importamos nuestro contexto 
+//Importamos nuestro contexto el cual esta dentro de un hook personalizado
 import { useVariableContext } from "../Context/VariablesContext"
 
 export const Especificaciones = () => {
@@ -10,25 +9,9 @@ export const Especificaciones = () => {
   const articuloId = useParams()
 
   const context =  useVariableContext()
-  // const [articulo,setArticulo] = useState ([])
-  
-  // const url ='http://localhost:3000/items'
 
-
-/*   useEffect(()=>{
-    const apiArt = async()=>{
-      try {
-        const respuesta = await fetch(url)
-        const datos = await respuesta.json()
-        setArticulo(datos)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    apiArt()
-  },[]) */
-
-   const filtro = context.datosApi.filter(art => art.id === articuloId.id )
+  //le hacemos un map a datosApi el cual esta dentro de context
+  const filtro = context.datosApi.filter(art => art.id === articuloId.id )
 
 
   return (

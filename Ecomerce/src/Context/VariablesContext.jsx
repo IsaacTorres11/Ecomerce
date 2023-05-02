@@ -18,32 +18,65 @@ const VariableContext = createContext()
 //2"Creacion del proveedor del contexto"
 function VariableProvider(props){
 
+
+    //////////////// Consumiendo la Api ///////////////////
     const [datosApi, setDatosApi] = useState([])
-    const [articuloSeleccionado, setArticuloSeleccionado] = useState({})
+    const [usuarios, setUsuarios] = useState([])
 
-
-    const url ='http://localhost:3000/items'
+    const urlItems ='http://localhost:3000/items'
+    const urlUsers ='http://localhost:3000/users'
 
     useEffect(()=>{
         const ConsumirApi = async ()=>{
             try {
-                const respuesta = await fetch(url)
+                const respuesta = await fetch(urlItems)
                 const datos = await respuesta.json()
                 setDatosApi (datos)
             } catch (error) {
                 console.log(error)
             }
         }
+
+        const ConsumirUsers = async () => {
+            try {
+                const respuestaUsers = await fetch(urlUsers)
+                const datosUsers = await respuestaUsers.json()
+                setUsuarios(datosUsers)
+            } catch (error) {
+                console.log(error);
+            }
+        }
         ConsumirApi()
+        ConsumirUsers()
     },[])
+
+    ///////////////////////// Terminamos de consumir la Api //////////////////////////
+
+    ///////////// Estado del Formulario Busqueda //////////////////////
+    const [busqueda, setBusqueda] = useState ('')
+    //////////////////////////////////////////////////////////////////
+
+    // Se crea un filtrado para la busqueda de articulos 
+
+    const artFiltrado = datosApi.filter(articulo => {
+        if (busqueda == ''){
+            return datosApi
+        }
+        else if (articulo.product_name.toLowerCase().includes(busqueda.toLowerCase())){
+            return articulo
+        }
+    })
+
+
 
     //3 Indicar al proveedor que datos vamos a compartir 
     //Estos datos seran publicos para todos los componente que esten dentro del proveedor
     // Para esto creamos unsta constate la cual va almacenar la informacion que sera de propoiedad global 
     const values ={
-        datosApi,
-        articuloSeleccionado,
-        setArticuloSeleccionado
+        artFiltrado,
+        busqueda,
+        setBusqueda,
+        usuarios
     }
 
     //4 Retonamos una funcion con los valores qwue seran globales en este caso Values

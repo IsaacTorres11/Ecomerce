@@ -8,12 +8,10 @@ import { Routes, Route } from "react-router-dom"
 import BarraNavegacion from "./Componentes/BarraNavegacion"
 import Inicio from "./Componentes/Inicio"
 import Especificaciones from "./Paginas/Especificaciones"
+import Ingresar from "./Componentes/Ingresar"
 
 
 function App() {
-
-  
-
   return (
     <>  
     <VariableProvider>
@@ -22,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Inicio/>}/>
         <Route path="/articulo/:id" element={<Especificaciones/>} />
+        <Route path="/ingresar" element={<Ingresar />}/>
       </Routes>
       
     </VariableProvider>
