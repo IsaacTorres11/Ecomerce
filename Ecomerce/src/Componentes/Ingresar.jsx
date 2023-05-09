@@ -6,8 +6,6 @@ import '../Estilos/formulario.css'
 
 import { useVariableContext } from '../Context/VariablesContext'
 
-
-
 const Ingresar = () => {
 
     const {conectado} = useVariableContext()
@@ -19,12 +17,12 @@ const Ingresar = () => {
         try {
             const respuesta = await loginUsuarioServicio(data)
             if (respuesta.status === 200){
-                //La funcion ingresar viene del context y sirve para guardar el 
-                //token en el localstorage
+                //La funcion ingresar viene del context y sirve para guardar el token en el localstorage
                 conectado(respuesta.data.token)
-                navigate('/perfil')
-               
-                
+                //Este dato permanece aun si el navegador se cierra y vuelve a abrir
+                //window.localStorage.setItem('token', repsuesta.data.token)
+                //console.log(respuesta.data.token)
+                navigate('/perfil') 
             } 
         } 
         catch (error) {

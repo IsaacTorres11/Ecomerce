@@ -4,7 +4,8 @@ import {NavLink} from 'react-router-dom'
 import { useVariableContext } from '../Context/VariablesContext'
 const BarraNavegacion = () => {
 
-  const {busqueda,setBusqueda} = useVariableContext()
+        
+        const {busqueda,setBusqueda, autenticado, desconectado} = useVariableContext()
 
   /////////////// Funciones De Formulario /////////////
 
@@ -43,8 +44,22 @@ const BarraNavegacion = () => {
             <button className="btn btn-outline-success " type="submit">Search</button>
             </form>
             
-            <NavLink to="/ingresar" > Ingresar</NavLink>
-            <NavLink to="/resgistro"> Registrarse</NavLink>
+            {
+              autenticado === true ? (
+                <>
+                  <NavLink to="/perfil" > Usuario </NavLink>
+                  <NavLink to="/" onClick={desconectado}> Salir </NavLink>
+                </>
+              )
+              :
+              (
+                <>
+                  <NavLink to="/ingresar" > Ingresar</NavLink>
+                  <NavLink to="/resgistro"> Registrarse</NavLink>
+                </>
+              )
+            }
+            
         </div>
         
     </nav>

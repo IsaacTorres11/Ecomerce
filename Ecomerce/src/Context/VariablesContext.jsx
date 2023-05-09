@@ -21,7 +21,6 @@ const VariableContext = createContext()
 //2"Creacion del proveedor del contexto"
 function VariableProvider(props){
 
-
     //////////////// Consumiendo la Api ///////////////////
     const [datosApi, setDatosApi] = useState([])
 
@@ -41,8 +40,8 @@ function VariableProvider(props){
     const desconectado =()=>{
         //borammos el token del localstorage por medio de la clave que se le asigna token
         window.localStorage.removeItem('token')
-        setUsuarioPayload(null)
-        setAutenticado(false)
+        setUsuarioPayload (null)
+        setAutenticado (false)
     }
 
 
