@@ -44,7 +44,7 @@ const BarraNavegacion = () => {
             </form>
             
             <NavLink to="/ingresar" > Ingresar</NavLink>
-            <NavLink to="/restrarse"> Registrarse</NavLink>
+            <NavLink to="/resgistro"> Registrarse</NavLink>
         </div>
         
     </nav>

@@ -1,9 +1,7 @@
 import {Link} from "react-router-dom"
-/* import useApi from "../Hooks/useApi" */
 import { useVariableContext } from "../Context/VariablesContext"
 
 export const Inicio = () => {
-
 
     const {artFiltrado} = useVariableContext()
 

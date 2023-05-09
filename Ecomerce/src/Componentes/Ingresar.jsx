@@ -1,40 +1,77 @@
-import { useState } from "react"
-import { useVariableContext } from "../Context/VariablesContext"
+import { useNavigate } from 'react-router-dom'
+import useFormulario from '../Hooks/useFormulario'
+import {loginUsuarioServicio} from '../Servicios/userServicio'
+import logo from '../assets/react.svg'
+import '../Estilos/formulario.css'
+
+import { useVariableContext } from '../Context/VariablesContext'
+
+
+
 const Ingresar = () => {
 
-    const [usuario,setUsuario] = useState('')    
+    const {conectado} = useVariableContext()
 
-    const {usuarios} =  useVariableContext()
-    console.log(usuarios)
+    //useNavigate nos permite navagar a otra ruta 
+    const navigate = useNavigate()
 
-////////// Funciones de manejo de formulario ////////////
+    const enviarDatos = async (data)=>{
+        try {
+            const respuesta = await loginUsuarioServicio(data)
+            if (respuesta.status === 200){
+                //La funcion ingresar viene del context y sirve para guardar el 
+                //token en el localstorage
+                conectado(respuesta.data.token)
+                navigate('/perfil')
+               
+                
+            } 
+        } 
+        catch (error) {
+            console.log( 'se produjo un error ', error.message)
+        }
+    }
+    
+    const {input,  handleSubmit , handleChange} = useFormulario(enviarDatos, {
+        email: '',
+        password: ''
+    })
 
-const handleSubmit = (e) => {
-    e.preventDefault()
-}
 
-const handleChange = (e) => {
-    setUsuario(e.target.value)
-}
 
-  return (
-    <div className="ingresar">
-        <h2>Ingresa</h2>
+    return (
+    <main className="form-signin w-100 m-auto">
         <form onSubmit={handleSubmit}>
+            <img className="mb-4" src={logo} alt="" width="72" height="57"/>
+            <h1 className="h3 mb-3 fw-normal">Ingresar</h1>
 
-            <input type="text" 
-            placeholder="Correo o Usuario"
-            name='usuario'/>
-
-            <input type="password"  
-            placeholder="contraseña"
-            name='password'/>
+            <div className="form-floating">
+            <input type="email" 
+            className="form-control" 
+            id="floatingInput" 
+            placeholder="name@example.com"
+            name='email'
+            value={input.email}
+            onChange={handleChange}/>
+            <label htmlFor="floatingInput">Email</label>
+            </div>
             
-            <button>Ingresar</button>
-        </form>
+            <div className="form-floating">
+            <input type="password" 
+            className="form-control" 
+            id="floatingPassword" 
+            placeholder="Password"
+            name='password'
+            value={input.password}
+            onChange={handleChange}/>
+            <label htmlFor="floatingPassword">Password</label>
+            </div>
 
-    </div>
-  )
+            <button className="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
+            <p className="mt-5 mb-3 text-body-secondary">© 2017–2023</p>
+        </form>
+    </main>
+    )
 }
 
 export default Ingresar

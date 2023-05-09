@@ -12,6 +12,9 @@ Para usar constx es necesario seguir la siguiente serie de pasos.
 
 import { createContext, useState, useEffect, useContext} from "react";
 
+//importamos la libreria para decoficar los tokens
+import jwt_decode from "jwt-decode";
+
 //1.- Creacion del contexto, esto nos importara por defecto createContext de react
 const VariableContext = createContext()
 
@@ -21,15 +24,45 @@ function VariableProvider(props){
 
     //////////////// Consumiendo la Api ///////////////////
     const [datosApi, setDatosApi] = useState([])
-    const [usuarios, setUsuarios] = useState([])
 
-    const urlItems ='http://localhost:3000/items'
-    const urlUsers ='http://localhost:3000/users'
+    //se crea un estado para validar si el usuario esta autenticado el cual iniciara como falso
+    const [autenticado, setAutenticado] = useState(false)
+
+    //Creamos un estado para guardar el token decodificado del usuario
+    const [usarioPayload, setUsuarioPayload] = useState(null)
+
+    const conectado = (token)=> {
+        window.localStorage.setItem ('token', token)
+        const decodificado = jwt_decode(token)
+        setUsuarioPayload(decodificado)
+        setAutenticado(true)
+    }
+
+    const desconectado =()=>{
+        //borammos el token del localstorage por medio de la clave que se le asigna token
+        window.localStorage.removeItem('token')
+        setUsuarioPayload(null)
+        setAutenticado(false)
+    }
+
+
+    useEffect(()=>{
+        const token = window.localStorage.getItem('token')
+        if (token){
+            const decodificado = jwt_decode(token)
+            setUsuarioPayload(decodificado)
+            setAutenticado(true)
+        }
+    },[])
+
+    
+    ////// Esto es para consumir la Api en el endopint de los items 
+    const url ='http://localhost:3000'
 
     useEffect(()=>{
         const ConsumirApi = async ()=>{
             try {
-                const respuesta = await fetch(urlItems)
+                const respuesta = await fetch(`${url}/items`)
                 const datos = await respuesta.json()
                 setDatosApi (datos)
             } catch (error) {
@@ -37,24 +70,15 @@ function VariableProvider(props){
             }
         }
 
-        const ConsumirUsers = async () => {
-            try {
-                const respuestaUsers = await fetch(urlUsers)
-                const datosUsers = await respuestaUsers.json()
-                setUsuarios(datosUsers)
-            } catch (error) {
-                console.log(error);
-            }
-        }
+
+        
         ConsumirApi()
-        ConsumirUsers()
     },[])
 
     ///////////////////////// Terminamos de consumir la Api //////////////////////////
 
-    ///////////// Estado del Formulario Busqueda //////////////////////
+    ///////////// Estado del Formulario Busqueda para el componente barra de navegacion //////////////////////
     const [busqueda, setBusqueda] = useState ('')
-    //////////////////////////////////////////////////////////////////
 
     // Se crea un filtrado para la busqueda de articulos 
 
@@ -67,16 +91,19 @@ function VariableProvider(props){
         }
     })
 
-
-
     //3 Indicar al proveedor que datos vamos a compartir 
     //Estos datos seran publicos para todos los componente que esten dentro del proveedor
     // Para esto creamos unsta constate la cual va almacenar la informacion que sera de propoiedad global 
     const values ={
+        //Estos son los valores que se comparten para la busqueda de los articulos 
         artFiltrado,
         busqueda,
         setBusqueda,
-        usuarios
+        // estos son los valores que se comparten para la validacion de conexion del usuario
+        autenticado,
+        usarioPayload,
+        conectado,
+        desconectado
     }
 
     //4 Retonamos una funcion con los valores qwue seran globales en este caso Values
@@ -99,6 +126,7 @@ const useVariableContext =()=>{
 
 //6 Exportamos el contexto y provider
 export {
+    VariableContext, 
     VariableProvider,
     useVariableContext
 } 

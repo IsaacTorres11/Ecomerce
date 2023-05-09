@@ -9,6 +9,8 @@ import BarraNavegacion from "./Componentes/BarraNavegacion"
 import Inicio from "./Componentes/Inicio"
 import Especificaciones from "./Paginas/Especificaciones"
 import Ingresar from "./Componentes/Ingresar"
+import Registro from "./Componentes/Registro"
+import Perfil from "./Componentes/Perfil"
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
         <Route path="/" element={<Inicio/>}/>
         <Route path="/articulo/:id" element={<Especificaciones/>} />
         <Route path="/ingresar" element={<Ingresar />}/>
+        <Route path="/resgistro" element={<Registro />}/>
+        <Route path="/perfil" element={<Perfil />}/>
       </Routes>
       
     </VariableProvider>
