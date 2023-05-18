@@ -7,7 +7,6 @@ function useFormulario (callback, defaults){
     const handleSubmit =(e)=>{
         e.preventDefault()
         callback(input)
-        console.log(input)
     }
 
     const handleChange =(e)=>{

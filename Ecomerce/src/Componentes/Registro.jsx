@@ -21,7 +21,7 @@ const enviarDatos = async (data)=>{
     }
 }
 
-const {input,  handleSubmit , handleChange} = useFormulario(enviarDatos, {
+const {input,  handleSubmit , handleChange} = useFormulario( enviarDatos, {
     first_name: '',
     last_name: '',
     gender: '',
