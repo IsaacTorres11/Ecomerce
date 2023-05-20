@@ -1,7 +1,7 @@
 import { traeUsuario } from "../Servicios/userServicio"
 import { useVariableContext } from "../Context/VariablesContext"
 import { useEffect, useState } from "react"
-
+import { NavLink } from "react-router-dom"
 
 const Perfil = () => {
 
@@ -9,7 +9,7 @@ const [infoUsuario, setInfoUsuario] = useState({})
 const {usarioPayload} = useVariableContext()
 
 useEffect(()=>{
-  const infoUser =async()=>{
+  const infoUser = async()=>{
     try {
       const respuesta = await traeUsuario(usarioPayload.id)
       if (respuesta.status === 200) {
@@ -20,15 +20,36 @@ useEffect(()=>{
     }
   }
   infoUser()
-  
 // eslint-disable-next-line react-hooks/exhaustive-deps
 },[])
 
 console.log(infoUsuario)
+const imageAdmin = 'https://th.bing.com/th/id/OIP.ezuAHg1252penfhEIJKZdAAAAA?pid=ImgDet&w=256&h=256&rs=1'
+
 
   return (
     <div>
+      
+      <div>
+        <img src={imageAdmin} alt="" />
+      </div>
+    
         <h2>Perfil</h2>
+        {
+          infoUsuario?.role && <p>Role User: {infoUsuario.role}</p>
+        }
+
+        {
+          infoUsuario.role === 'ADMIN' ? 
+          (
+            <NavLink to='/crear-articulo'>Crear Articulo</NavLink>
+          )
+          :
+          (
+            <button>Go To Car</button>
+          )
+        }
+
         {
           infoUsuario?.first_name && <p>First Name: {infoUsuario.first_name}</p>
         }
@@ -41,6 +62,9 @@ console.log(infoUsuario)
         {
           infoUsuario?.email && <p>First Name: {infoUsuario.email}</p>
         }
+
+        
+
     </div>
   )
 }

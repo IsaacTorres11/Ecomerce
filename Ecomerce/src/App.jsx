@@ -11,7 +11,7 @@ import Especificaciones from "./Paginas/Especificaciones"
 import Ingresar from "./Componentes/Ingresar"
 import Registro from "./Componentes/Registro"
 import Perfil from "./Componentes/Perfil"
-
+import CrearArtiuclo from "./Componentes/CrearArtiuclo"
 
 function App() {
   return (
@@ -25,6 +25,7 @@ function App() {
         <Route path="/ingresar" element={<Ingresar />}/>
         <Route path="/resgistro" element={<Registro />}/>
         <Route path="/perfil" element={<Perfil />}/>
+        <Route path="/crear-articulo" element={<CrearArtiuclo />}/>
       </Routes>
       
     </VariableProvider>
