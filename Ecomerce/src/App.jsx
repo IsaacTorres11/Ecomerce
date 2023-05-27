@@ -12,6 +12,7 @@ import Ingresar from "./Componentes/Ingresar"
 import Registro from "./Componentes/Registro"
 import Perfil from "./Componentes/Perfil"
 import CrearArtiuclo from "./Componentes/CrearArtiuclo"
+import Carrito from "./Componentes/Carrito"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/resgistro" element={<Registro />}/>
         <Route path="/perfil" element={<Perfil />}/>
         <Route path="/crear-articulo" element={<CrearArtiuclo />}/>
+        <Route path="/carrito" element={<Carrito />}/>
       </Routes>
       
     </VariableProvider>

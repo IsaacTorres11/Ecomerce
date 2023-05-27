@@ -46,7 +46,7 @@ const imageAdmin = 'https://th.bing.com/th/id/OIP.ezuAHg1252penfhEIJKZdAAAAA?pid
           )
           :
           (
-            <button>Go To Car</button>
+            <NavLink to='/carrito'>Mi Carrito</NavLink>
           )
         }
 

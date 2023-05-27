@@ -49,6 +49,7 @@ const BarraNavegacion = () => {
                 <>
                   <NavLink to="/perfil" > Usuario </NavLink>
                   <NavLink to="/" onClick={desconectado}> Salir </NavLink>
+                  <NavLink to='/carrito'>Mi Carrito</NavLink>
                 </>
               )
               :

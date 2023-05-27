@@ -14,6 +14,7 @@ import { createContext, useState, useEffect, useContext} from "react";
 
 //importamos la libreria para decoficar los tokens
 import jwt_decode from "jwt-decode";
+import Carrito from "../Componentes/Carrito";
 
 //1.- Creacion del contexto, esto nos importara por defecto createContext de react
 const VariableContext = createContext()
@@ -21,12 +22,9 @@ const VariableContext = createContext()
 //2"Creacion del proveedor del contexto"
 function VariableProvider(props){
 
-    //////////////// Consumiendo la Api ///////////////////
-    const [datosApi, setDatosApi] = useState([])
-
+ ////////////////////////// Guardando el token en el localStorage y funciones de conectado y Desconectado ////////////////////   
     //se crea un estado para validar si el usuario esta autenticado el cual iniciara como falso
     const [autenticado, setAutenticado] = useState(false)
-
     //Creamos un estado para guardar el token decodificado del usuario
     const [usarioPayload, setUsuarioPayload] = useState(null)
 
@@ -44,7 +42,8 @@ function VariableProvider(props){
         setAutenticado (false)
     }
 
-
+    // Si el usuario cierra la pestaña o el navegador y no ha cerrado su sesion, 
+    // el token se decodificara automaticamente al abrir nuevamente la aplicacion 
     useEffect(()=>{
         const token = window.localStorage.getItem('token')
         if (token){
@@ -54,8 +53,10 @@ function VariableProvider(props){
         }
     },[])
 
-    
-    ////// Esto es para consumir la Api en el endopint de los items 
+/////////////////////// Se finaliza la parte del token en el localStorage //////////////////
+
+////////////////////////// Consumiendo la Api en los articulos///////////////////
+    const [datosApi, setDatosApi] = useState([])
     const url ='http://localhost:3000'
 
     useEffect(()=>{
@@ -73,10 +74,11 @@ function VariableProvider(props){
         
         ConsumirApi()
     },[])
+///////////////////////// Terminamos de consumir la Api //////////////////////////
 
-    ///////////////////////// Terminamos de consumir la Api //////////////////////////
 
-    ///////////// Estado del Formulario Busqueda para el componente barra de navegacion //////////////////////
+
+///////////// Estado del Formulario Busqueda para el componente barra de navegacion //////////////////////
     const [busqueda, setBusqueda] = useState ('')
 
     // Se crea un filtrado para la busqueda de articulos 
@@ -90,6 +92,23 @@ function VariableProvider(props){
         }
     })
 
+/////////////////////  Se finaliza con la funcionalidad de busqueda de articulos ///////////////////
+
+////////////////////////// Se incia con el carrito de compras ////////////////////////////////
+
+    const [carrito, setCarrito] = useState([])
+
+    // se crea la funcion comprar
+    const comprar = (articulo) =>{
+        setCarrito([...carrito, articulo])
+    }
+
+       
+
+
+
+
+
     //3 Indicar al proveedor que datos vamos a compartir 
     //Estos datos seran publicos para todos los componente que esten dentro del proveedor
     // Para esto creamos unsta constate la cual va almacenar la informacion que sera de propoiedad global 
@@ -102,7 +121,10 @@ function VariableProvider(props){
         autenticado,
         usarioPayload,
         conectado,
-        desconectado
+        desconectado,
+        //estos son los valores para el carrito
+        comprar,
+        carrito
     }
 
     //4 Retonamos una funcion con los valores qwue seran globales en este caso Values
