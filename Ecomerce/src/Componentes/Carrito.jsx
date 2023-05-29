@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { useVariableContext } from "../Context/VariablesContext"
 
 
@@ -5,24 +6,23 @@ import { useVariableContext } from "../Context/VariablesContext"
 const Carrito = () => {
 
     //destructuramos el carrito de nuestro contexto
-    const {carrito} = useVariableContext()
+    const {carrito, setCarrito} = useVariableContext()
 
+    const [suma, setSuma] =useState(0)
     //Procedemos a realizar la suma de los precios de cada articulo del carrito
-    let suma = 0
-    for (let i = 0; i < carrito.length; i++) {
-      suma += carrito[i].price
+    useEffect(()=>{
+        let sumaTotal = 0
+        for (let i = 0; i < carrito.length; i++) {
+            sumaTotal += carrito[i].price
     }
+    setSuma(sumaTotal)
+    },[carrito])
+    
 
-/*     carrito.forEach((elemento ,indice) => {
-      console.log(`El ${elemento.product_name} se encuentra en el indice ${indice}`)  
-    }) */
-
-    const eliminarArticulo =(indiceArt)=>{
-        const articuloEliminado = carrito.filter((articulo ,indice)=> {
-            indice != indiceArt
-        })
-        console.log(articuloEliminado)
-    }
+    const eliminarArticulo =(id)=>{
+        const articuloEliminado = carrito.filter(articulo => articulo.id != id)       
+        setCarrito(articuloEliminado)
+    } 
     
     
   return (
@@ -32,7 +32,7 @@ const Carrito = () => {
             carrito.map((articulo,indice)=>(
                 <div key={indice}>
                     <h2>{articulo.product_name}  ${articulo.price}</h2>
-                    <button onClick={()=>{eliminarArticulo(indice)}}>Eliminar</button>
+                    <button onClick={()=>{eliminarArticulo(articulo.id)}}>Eliminar</button>
                 </div>
             ))
         }

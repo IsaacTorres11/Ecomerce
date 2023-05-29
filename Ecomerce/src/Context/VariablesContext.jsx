@@ -97,18 +97,13 @@ function VariableProvider(props){
 ////////////////////////// Se incia con el carrito de compras ////////////////////////////////
 
     const [carrito, setCarrito] = useState([])
-
+  
     // se crea la funcion comprar
     const comprar = (articulo) =>{
         setCarrito([...carrito, articulo])
     }
 
-       
-
-
-
-
-
+    
     //3 Indicar al proveedor que datos vamos a compartir 
     //Estos datos seran publicos para todos los componente que esten dentro del proveedor
     // Para esto creamos unsta constate la cual va almacenar la informacion que sera de propoiedad global 
@@ -124,7 +119,8 @@ function VariableProvider(props){
         desconectado,
         //estos son los valores para el carrito
         comprar,
-        carrito
+        carrito,
+        setCarrito
     }
 
     //4 Retonamos una funcion con los valores qwue seran globales en este caso Values
